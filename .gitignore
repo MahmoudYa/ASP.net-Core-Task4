@@ -1,0 +1,12 @@
+/src/REAL_Estate.Web/wwwroot/css/**/*.min.css
+/src/REAL_Estate.Web/wwwroot/js/**/*.min.js
+/src/REAL_Estate.Web/node_modules/
+
+/src/REAL_Estate.Web/Logs/
+.vscode/
+.vs/
+bin/
+obj/
+
+*.user
+*.suo

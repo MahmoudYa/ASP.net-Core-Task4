@@ -1,0 +1,41 @@
+@model IEnumerable<REAL_Estate.Objects.Models.Property>
+
+<h2>Properties</h2>
+<a asp-action="Create" class="btn btn-primary">Add New Property</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Address</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var property in Model)
+        {
+            <tr>
+                <td>@property.Name</td>
+                <td>@property.Price</td>
+                <td>@property.Address</td>
+                <td>@property.Description</td>
+                
+                <td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@property.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@property.Id" class="btn btn-danger btn-sm">Delete</a>
+
+                    <a asp-action="ManageFiles" asp-route-propertyId="@property.Id" class="btn btn-secondary btn-sm">Manage Files</a>
+
+                </td>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+                   

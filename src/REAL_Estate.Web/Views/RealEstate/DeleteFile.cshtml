@@ -1,0 +1,13 @@
+@model REAL_Estate.Objects.Models.Filee
+
+<h2>Delete File</h2>
+
+<p>Are you sure you want to delete this file: <strong>@Model.FileName</strong>?</p>
+
+<form asp-action="DeleteFileConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="PropertyId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="ManageFiles" asp-route-propertyId="@Model.PropertyId" class="btn btn-secondary">Cancel</a>
+</form>

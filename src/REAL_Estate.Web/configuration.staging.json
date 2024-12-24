@@ -1,0 +1,13 @@
+{
+    "Cookies": {
+        "Antiforgery": ".REAL_Estate-Stage-Token",
+        "Auth": ".REAL_Estate-Stage-Auth",
+        "TempData": ".REAL_Estate-Stage-Temp",
+        "Session": ".REAL_Estate-Stage-Session"
+    },
+    "Logging": {
+        "LogLevel": {
+            "Default": "Warning"
+        }
+    }
+}
