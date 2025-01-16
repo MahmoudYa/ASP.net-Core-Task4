@@ -98,6 +98,55 @@ namespace REAL_Estate.Services
                 UnitOfWork.Commit();
             }
         }
+        public Property? GetPropertyDetail(long id)
+        {
+            return UnitOfWork.Get<Property>(id);
+        }
+
+        public IEnumerable<Property> GetFilteredProperties(string? searchQuery, decimal? minPrice, decimal? maxPrice)
+        {
+            IQuery<Property> query = UnitOfWork.Select<Property>();
+
+            if (!string.IsNullOrEmpty(searchQuery))
+                query = query.Where(p => p.Name.Contains(searchQuery) || p.Address.Contains(searchQuery));
+
+            if (minPrice.HasValue)
+                query = query.Where(p => p.Price >= minPrice.Value);
+
+            if (maxPrice.HasValue)
+                query = query.Where(p => p.Price <= maxPrice.Value);
+
+            return query.ToList();
+        }
+
+        public IEnumerable<string> GetAllCountries()
+        {
+            return UnitOfWork.Select<Property>()
+                             .Select(p => p.Country)
+                             .Distinct()
+                             .ToList();
+        }
+
+        public IEnumerable<string> GetCitiesByCountry(string country)
+        {
+            return UnitOfWork.Select<Property>()
+                             .Where(p => p.Country == country)
+                             .Select(p => p.City)
+                             .Distinct()
+                             .ToList();
+        }
+
+
+        public IEnumerable<string> GetRegionsByCity(string city)
+        {
+            return UnitOfWork.Select<Property>()
+                             .Where(p => p.City == city)
+                             .Select(p => p.Region)
+                             .Distinct()
+                             .ToList();
+        }
+
+
 
     }
 }

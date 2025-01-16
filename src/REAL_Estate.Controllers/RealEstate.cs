@@ -25,6 +25,52 @@ namespace REAL_Estate.Controllers
             return View(properties);
         }
 
+        public IActionResult Show(string? searchQuery, decimal? minPrice, decimal? maxPrice, string? country, string? city, string? region)
+        {
+            IEnumerable<Property> properties = Service.GetFilteredProperties(searchQuery, minPrice, maxPrice);
+
+            if (!string.IsNullOrEmpty(country))
+                properties = properties.Where(p => p.Country == country);
+
+            if (!string.IsNullOrEmpty(city))
+                properties = properties.Where(p => p.City == city);
+
+            if (!string.IsNullOrEmpty(region))
+                properties = properties.Where(p => p.Region == region);
+
+            ViewBag.Countries = Service.GetAllCountries();
+            ViewBag.Cities = string.IsNullOrEmpty(country) ? new List<string>() : Service.GetCitiesByCountry(country);
+            ViewBag.Regions = string.IsNullOrEmpty(city) ? new List<string>() : Service.GetRegionsByCity(city);
+
+            return View(properties);
+        }
+
+        [AllowUnauthorized]
+        [HttpGet]
+        [Route("RealEstate/GetCities/country")]
+        public JsonResult GetCities(string country)
+        {
+            var cities = Service.GetCitiesByCountry(country)
+                .Select(city => new { value = city, text = city })
+                .ToList();
+
+            return Json(cities);
+        }
+
+
+        [AllowUnauthorized]
+        [HttpGet]
+        [Route("RealEstate/GetRegions/city")]
+        public JsonResult GetRegions(string city)
+        {
+            var regions = Service.GetRegionsByCity(city)
+                .Select(region => new { value = region, text = region }) 
+                .ToList();
+
+            return Json(regions);
+        }
+
+
         public IActionResult Create()
         {
             return View();
@@ -169,6 +215,17 @@ namespace REAL_Estate.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Detailes(long id)
+        {
+            Property? property = Service.GetPropertyDetail(id);
+
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            return View(property);
+        }
 
     }
 }

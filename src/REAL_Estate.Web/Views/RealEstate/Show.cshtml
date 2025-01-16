@@ -1,0 +1,93 @@
+@model IEnumerable<REAL_Estate.Objects.Models.Property>
+
+<h2 class="text-center my-4">Properties - Search and Filter</h2>
+<div class="container">
+    <form asp-action="Show" method="get" style="width: 100%; max-width: 700px;">
+        <div class="row g-2">
+            <!-- Country Dropdown -->
+            <div class="col-md-4 mt-3">
+                <select id="Country" name="country" class="form-control rounded-pill">
+                    <option value="">Select Country</option>
+                    @foreach (var country in (List<string>)ViewBag.Countries)
+                    {
+                        var selected = country == (string)ViewData["SelectedCountry"] ? "selected" : "";
+                        @Html.Raw($"<option value='{country}' {selected}>{country}</option>")
+                    }
+                </select>
+            </div>
+
+            <!-- City Dropdown -->
+            <div class="col-md-4 mt-3">
+                <select id="City" name="city" class="form-control rounded-pill" disabled>
+                    <option value="">Select City</option>
+                </select>
+            </div>
+
+            <!-- Region Dropdown -->
+            <div class="col-md-4 mt-3">
+                <select id="Region" name="region" class="form-control rounded-pill" disabled>
+                    <option value="">Select Region</option>
+                </select>
+            </div>
+
+
+            <!-- Price Filters -->
+            <div class="col-md-3 mt-3">
+                <input type="number" name="minPrice" class="form-control rounded-pill"
+                       placeholder="Min Price" value="@(ViewData["MinPrice"] ?? "")" min="0" step="1">
+            </div>
+            <div class="col-md-3 mt-3">
+                <input type="number" name="maxPrice" class="form-control rounded-pill"
+                       placeholder="Max Price" value="@(ViewData["MaxPrice"] ?? "")" min="0" step="1">
+            </div>
+
+            <!-- Search Query -->
+            <div class="col-md-12 mt-3">
+                <input type="text" name="searchQuery" class="form-control rounded-pill"
+                       placeholder="Search for property..." value="@(ViewData["SearchQuery"] ?? "")">
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center p-3">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+</div>
+
+
+    <!-- Properties Section -->
+    <div class="row">
+        @if (!Model.Any())
+        {
+            <p class="text-center">لا توجد نتائج مطابقة للبحث.</p>
+        }
+        else
+        {
+            @foreach (var property in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <a asp-action="Detailes" asp-route-id="@property.Id" style="text-decoration: none; color: inherit;">
+                        <div class="card" style="cursor: pointer;">
+                            <div class="image-container" style="position: relative; overflow: hidden; border-radius: 10px;">
+                                @if (property.Files != null && property.Files.Any())
+                                {
+                                    <img src="@Url.Content($"~/uploads/{property.Files.FirstOrDefault()?.FilePath?.Split('\\').Last()}")"
+                                         class="card-img-top"
+                                         alt="@property.Name"
+                                         style="width: 100%; height: 250px; object-fit: cover; border-radius: 10px;">
+                                }
+                                <div class="price-overlay"
+                                     style="position: absolute; bottom: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 18px; font-weight: bold; padding: 5px 15px; border-radius: 10px;">
+                                    شيكل @property.Price
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@property.Name</h5>
+                                <p class="card-text">@property.Address</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    </div>

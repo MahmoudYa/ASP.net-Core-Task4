@@ -10,6 +10,19 @@
         <label asp-for="Price"></label>
         <input asp-for="Price" class="form-control" />
     </div>
+
+    <div>
+        <label asp-for="Country"></label>
+        <input asp-for="Country" class="form-control"></input>
+    </div>
+    <div>
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control"></input>
+    </div>
+    <div>
+        <label asp-for="Region"></label>
+        <input asp-for="Region" class="form-control"></input>
+    </div>
     <div>
         <label asp-for="Address"></label>
         <input asp-for="Address" class="form-control" />
@@ -18,6 +31,7 @@
         <label asp-for="Description"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
+    
     
     <button type="submit" class="btn btn-primary">Save</button>
     <button asp-action="Index" class="btn btn-secondary">Cancel</button>

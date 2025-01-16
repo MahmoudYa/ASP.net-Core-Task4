@@ -1,0 +1,93 @@
+@model REAL_Estate.Objects.Models.Property
+
+<div class="container my-5">
+    <!-- images -->
+    <div class="row">
+        <div class="col-12">
+            <!-- big images -->
+            <div id="propertyCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    @if (Model.Files != null && Model.Files.Any())
+                    {
+                        int index = 0;
+                        foreach (var file in Model.Files)
+                        {
+                            <div class="carousel-item @(index == 0 ? "active" : "")">
+                                <img src="@Url.Content($"~/uploads/{file.FilePath?.Split('\\').Last()}")"
+                                     class="d-block w-25 mx-auto "
+                                     alt="Property Image">
+                            </div>
+                            index++;
+                        }
+                    }
+                </div>
+                <!-- buttons move -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon rounded-circle bg-dark p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon rounded-circle bg-dark p-2" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <!-- small images -->
+            <div class="row mt-3 justify-content-center">
+                @if (Model.Files != null && Model.Files.Any())
+                {
+                    int index = 0;
+                    foreach (var file in Model.Files)
+                    {
+                        <div class="col-2">
+                            <img src="@Url.Content($"~/uploads/{file.FilePath?.Split('\\').Last()}")"
+                                 class="img-thumbnail "
+                                 data-bs-target="#propertyCarousel"
+                                 data-bs-slide-to="@index" >
+                        </div>
+                        index++;
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- المعلومات -->
+    <div class="row mt-5 ">
+        <div class="col-12 text-end">
+            <h4 class="mb-4">المعلومات</h4>
+            <table class="table table-bordered" dir="rtl">
+                <tbody >
+                    <tr>
+                        <th >النوع</th>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <th>السعر</th>
+                        <td>شيكل @Model.Price</td>
+                    </tr>
+                    <tr>
+                        <th>الدولة</th>
+                        <td> @Model.Country</td>
+                    </tr>
+                    <tr>
+                        <th>المدينة</th>
+                        <td> @Model.City</td>
+                    </tr>
+                    <tr>
+                        <th>المنطقة</th>
+                        <td> @Model.Region</td>
+                    </tr>
+                    <tr>
+                        <th>العنوان</th>
+                        <td>@Model.Address</td>
+                    </tr>
+                    <tr>
+                        <th>الوصف</th>
+                        <td>@Model.Description</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

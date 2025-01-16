@@ -1,7 +1,9 @@
-@{ String? action = ViewContext.RouteData.Values["action"] as String; }
+@{
+    String? action = ViewContext.RouteData.Values["action"] as String;
+}
 
 <!doctype html>
-<html lang="@CultureInfo.CurrentUICulture">
+<html lang="@CultureInfo.CurrentUICulture" dir="rtl">
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="@Url.Content("~/favicon.ico")">
@@ -42,6 +44,8 @@
     </div>
 
     <environment names="Development">
+        <script src="~/js/shared/widgets/jquery-3.7.1.min.js"></script>
+
         <script src="~/js/moment/moment.js"></script>
         <script src="~/js/moment/cultures/moment.en.js"></script>
         <script src="~/js/popper/popper.js"></script>

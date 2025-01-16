@@ -1,7 +1,9 @@
-@{ String? action = ViewContext.RouteData.Values["action"] as String; }
+@{
+    String? action = ViewContext.RouteData.Values["action"] as String;
+}
 
 <!doctype html>
-<html lang="@CultureInfo.CurrentUICulture">
+<html lang="@CultureInfo.CurrentUICulture" dir="rtl" >
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="@Url.Content("~/favicon.ico")">
@@ -40,13 +42,18 @@
     <partial name="MvcLookup/_Dialog" />
 
     <div class="header">
+
+
         <div class="btn">
             <a asp-action="@nameof(Profile.Edit)" asp-controller="@nameof(Profile)" asp-area="">
                 <span class="fa fa-user"></span>
                 <span class="text">@Resource.ForAction(nameof(Profile))</span>
             </a>
         </div>
-        @{ ILanguages languages = Context.RequestServices.GetRequiredService<ILanguages>(); }
+
+        @{
+            ILanguages languages = Context.RequestServices.GetRequiredService<ILanguages>();
+        }
         @if (languages.Supported.Length > 1)
         {
             <div class="btn dropdown">
@@ -79,6 +86,13 @@
             </a>
         </div>
 
+        <div class="btn">
+            <a asp-action="@nameof(RealEstate.Show)" asp-controller="@nameof(RealEstate)" asp-area="">
+                <span class="fa fa-share"></span>
+                <span class="text">Show Properties</span>
+            </a>
+        </div>
+
     </div>
 
     <div class="content">
@@ -86,16 +100,24 @@
             <div class="navigation-search">
                 <input type="search" placeholder="@Resource.ForAction("Search")" />
             </div>
-            @{ ISiteMap siteMap = Context.RequestServices.GetRequiredService<ISiteMap>(); }
+            @{
+                ISiteMap siteMap = Context.RequestServices.GetRequiredService<ISiteMap>();
+            }
             <partial name="_SiteMap" model="@siteMap.For(ViewContext)" />
         </div>
         <div class="main-content">
             <hr />
 
             <div class="breadcrumb">
-                @{ IAuthorization authorization = Context.RequestServices.GetRequiredService<IAuthorization>(); }
-                @{ SiteMapNode[] breadcrumb = siteMap.BreadcrumbFor(ViewContext); }
-                @{ Int64 accountId = User.Id(); }
+                @{
+                    IAuthorization authorization = Context.RequestServices.GetRequiredService<IAuthorization>();
+                }
+                @{
+                    SiteMapNode[] breadcrumb = siteMap.BreadcrumbFor(ViewContext);
+                }
+                @{
+                    Int64 accountId = User.Id();
+                }
 
                 @for (Int32 i = 0; i < breadcrumb.Length; i++)
                 {
@@ -146,6 +168,8 @@
     </div>
 
     <environment names="Development">
+        <script src="~/js/shared/widgets/jquery-3.7.1.min.js"></script>
+
         <script src="~/js/moment/moment.js"></script>
         <script src="~/js/moment/cultures/moment.en.js"></script>
         <script src="~/js/popper/popper.js"></script>
@@ -176,5 +200,8 @@
         <script asp-append-version="true" action="@action"></script>
         <script asp-append-version="true" src="~/js/site/bundle.min.js"></script>
     </environment>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
